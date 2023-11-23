@@ -42,16 +42,16 @@ function Messages(){
     
     }
 
-    return ( <div className="App">
+    return ( <div className="p">
     <h3> AddPosts </h3>
       <div>
       
       {/* <input type="text" placeholder="topic" value={topic} 
       onChange={e => setTopic(e.target.value)} /><br/> */}
-      <input type="text" placeholder="content" value={data} 
+      <input className="input" type="text" placeholder="content" value={data} 
       onChange={e => setData(e.target.value)} />
       </div>
-      <button onClick={handleNewPost}>submit</button>
+      <button className="button" onClick={handleNewPost}>submit</button>
          
     <h3>all my posts:</h3> 
      <ul>

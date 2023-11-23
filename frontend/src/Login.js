@@ -67,19 +67,19 @@ function Login(props){
              
       }
 
-    return (<div>
+    return (<div className='p'>
 
 <>
         <h3> Log in </h3>
         <div>
         
-        <input type="text" placeholder="username" value={username} 
+        <input className="input"type="text" placeholder="username" value={username} 
         onChange={e => setUsername(e.target.value)} /><br/>
-        <input type="text" placeholder="password" value={password} 
+        <input className="input" type="text" placeholder="password" value={password} 
         onChange={e => setPassword(e.target.value)} />
         </div>
-        <button onClick={handleRegister}>register</button>
-        <button onClick={handleLogIn}>log in</button>      
+        <button className="button" onClick={handleRegister}>register</button>
+        <button className="button" onClick={handleLogIn}>log in</button>      
     </>
 
     </div>

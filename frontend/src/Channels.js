@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
-
+import"./Style.css"
 export const Channels = () => {
     const [channels,setChannels] = useState([]);
     const [newChannel,setNewChannel] = useState('');
@@ -48,7 +48,7 @@ export const Channels = () => {
 
 return (
     
-<div className="App">
+<div className="p">
 
 <div>
 {channels.map(channel => (
@@ -59,9 +59,9 @@ return (
         
         </ul>
       ))}
-   <input type="text" placeholder="name your channel" value={newChannel} 
+   <input className="input"type="text" placeholder="name your channel" value={newChannel} 
    onChange={(e) => setNewChannel(e.target.value)} />
- <button onClick={createChannel}>Create Channel</button>
+ <button  className="button"onClick={createChannel}>Create Channel</button>
                 </div>
 
 
