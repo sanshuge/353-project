@@ -1,34 +1,48 @@
-version: "3.8"
+version: "3.9"
 services:
-  app:
+  node:
+    build: .
     image: node:latest
-    container_name: nodeapp
+    container_name: node_container
     environment:
       DB_HOST: mysql1
       DB_PORT: 3306
       DB_USER: root
-      DB_PASSWORD: admin
+      DB_PASSWORD: password
+      DB_NAME: postdb
     ports:
-      - "3000:3000"
-    command: ["bin/bash"]
+      - "80:3000"
     volumes:
-      - ./:/code
+      - C:\Users\chaiy\Desktop\353-project:/dockerapp
     depends_on:
       - mysql1
     stdin_open: true
     tty: true
-  mysql1:
-    image: mysql:5.7
-    restart: always
-    container_name: db1
+  react_app:
+    build: .
+    container_name: react_container
     environment:
-      - MYSQL_ROOT_PASSWORD=admin
+      - WATCHPACK_POLLING=true  # Enables React to update on code change
     ports:
-      - "3306:3306"
-    volumes:
-      - /Users/chaiy/Desktop/353code
+      - "8080:8080"
+    depends_on:
+      - node
+      - mysql1
+    # command: npm start
     stdin_open: true
     tty: true
-volumes:
+  mysql1:
+    image: mysql:5.7
+    container_name: db_container
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3307:3306"
+    volumes:
+      - db:/var/lib/mysql
+    stdin_open: true
+    tty: true
+volumes: 
   db:
     driver: local

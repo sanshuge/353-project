@@ -61,13 +61,13 @@ function Login(props){
                             
                setUsername("");
                 setPassword("");
-                  
+                 
                 navigate("/channels")
                          
              
       }
 
-    return (<div className='p'>
+    return (<div className='app'>
 
 <>
         <h3> Log in </h3>

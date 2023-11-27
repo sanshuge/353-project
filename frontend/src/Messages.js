@@ -42,30 +42,36 @@ function Messages(){
     
     }
 
-    return ( <div className="p">
-    <h3> AddPosts </h3>
-      <div>
+    return ( 
       
-      {/* <input type="text" placeholder="topic" value={topic} 
-      onChange={e => setTopic(e.target.value)} /><br/> */}
+      <div className='container'>
+
+        <div className='form'>
+      <h3> share your thoughts here </h3>
+
       <input className="input" type="text" placeholder="content" value={data} 
       onChange={e => setData(e.target.value)} />
+      
+      <button  onClick={handleNewPost}>submit</button>
       </div>
-      <button className="button" onClick={handleNewPost}>submit</button>
-         
-    <h3>all my posts:</h3> 
+    
+    <div className='messages'>
      <ul>
       {posts.map(post => (
         <ul key={post.ID}>
-          {post.ID}  data:{post.data}
+          {post.ID}  {post.data}
         </ul>
       ))}
     </ul> 
+    </div>
 
+
+
+</div>
     
   
 
-  </div>);
+ );
 
 }
 export default Messages;
