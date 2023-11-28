@@ -56,19 +56,20 @@ const refresh  = () =>  {
 
     return ( <div className="container">
       <div className='form'>
-      
+      <p>you can post here</p>
+      <br></br>
    
-      <input type="text" placeholder="content" value={data} 
+      <input className = "input"type="text" placeholder="content" value={data} 
       onChange={e => setData(e.target.value)} />   
       <button className= "button"onClick={handleNewPost}>submit</button>
       </div>
    
-         <div className=''>
+         <div className='container'>
      <ul>
       {posts.map(post => (
-        <ul key={post.ID}>
-          {post.ID}  data:{post.post}
-        </ul>
+        <li key={post.ID}>
+          {post.ID} {post.post}
+        </li>
 
       ))}
     </ul> 

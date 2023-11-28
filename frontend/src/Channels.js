@@ -58,9 +58,9 @@ return (
 <div className='form'>
 <p>Join the channels or create your own channel!</p>
 
-<input type="text" placeholder="name your channel" value={newChannel} 
+<input className = "input"type="text" placeholder="name your channel" value={newChannel} 
    onChange={(e) => setNewChannel(e.target.value)} />
- <button className= "button"onClick={createChannel}>Create Channel</button>
+ <button className= "button"  onClick={createChannel}>Create Channel</button>
 </div>
 <div className='channels'>
 {channels.map(channel => (

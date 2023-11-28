@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-function Login(props){
+function Login(){
   const navigate = useNavigate();
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
