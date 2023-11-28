@@ -44,9 +44,9 @@ app.get("/init", (req, res) => {
   });
   connection.query(
     `CREATE TABLE IF NOT EXISTS posts 
-    ( id int unsigned NOT NULL auto_increment, 
+    ( postID int unsigned NOT NULL auto_increment, 
    
-    data varchar(100) NOT NULL,
+    post varchar(100) NOT NULL,
     PRIMARY KEY (id))`,
     function (error, result) {
       if (error) console.log(error);
@@ -54,8 +54,7 @@ app.get("/init", (req, res) => {
   );
   res.send("Database and Table created!");
 });
-//Insert into Table
-// Adds new post to the database.
+  // POST message to a specific
 app.post("/addpost", (req, res) => {
  
   var data = req.body.data;
@@ -76,31 +75,39 @@ app.get("/getposts", (req, res) => {
   }); 
 });
 
-app.post("/login",(req,res)=>{
+app.post("/login", (req, res) => {
   var username = req.body.username;
-  var password= req.body.password;
-  var searchUsername =`SELECT * FROM postdb.userinfo WHERE username = ? `
-  if (username&password){ 
-    connection.query(searchUsername,[username],function(error,results){
-  if (error) throw error;
-  if (results.length===0){
-    // user does not exist
-     res.status(401);
+  var password = req.body.password;
+  var searchUsername = `SELECT * FROM postdb.userinfo WHERE username = ?`;
 
-  }
-  else{
-  var user = results[0];
-  if (user.password !== password) {
-      res.status(401);
-  } else {
-      res.status(200);
-  }}
-  
-  })
-  
+  // Ensure username and password are provided
+  // if (!username || !password) {
+  //   return res.status(400).json({ status: 'missing_credentials' });
+  // }
 
-}
+  connection.query(searchUsername, [username], function (error, results) {
+    if (error) {
+      console.error('Database error:', error);
+      return res.status(500).json({ status: 'error' });
+    }
+
+    // User does not exist
+    if (results.length === 0) {
+      return res.status(404).json({ status: 'user_not_found' });
+    }
+
+    // Check if password is correct
+    var user = results[0];
+    if (user.password !== password) {
+      // Incorrect password
+      return res.status(401).json({ status: 'incorrect_password' });
+    } else {
+      // Successful login
+      return res.status(200).json({ status: 'success' });
+    }
+  });
 });
+
 // new users register
 app.post("/register",(req,res)=>{
   var username = req.body.username;
@@ -110,7 +117,7 @@ app.post("/register",(req,res)=>{
     connection.query(searchUsername,[username],function(error,results){
       if (error) throw error;
       if (results.length>0){
-         res.status(400);
+         res.status(400).json({status: 'user_exists'});
         
       }
       else {
@@ -118,7 +125,7 @@ app.post("/register",(req,res)=>{
         connection.query(query, function (error, result) {
     if (error) throw error;
     else{
-   res.status(200)}
+   res.status(200).json({status:'success'})}
 
       })
     }

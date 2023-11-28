@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
-import"./Channels.css"
+import"./Style.css"
+
+
+/**
+ * 
+ * this is channels component where user can see or create channel
+ */
 export const Channels = () => {
     const [channels,setChannels] = useState([]);
     const [newChannel,setNewChannel] = useState('');
@@ -64,10 +70,10 @@ return (
 </div>
 <div className='channels'>
 {channels.map(channel => (
-        <ul key={channel.ID}>  
+        <ul key={channel.channelID}>  
      
         
-          <Link to={`/channels/${channel.ID}/${channel.channel}`}> channel:{channel.channel}       </Link>
+          <Link to={`/channels/${channel.channelID}/${channel.channel}`}> channel:{channel.channel}       </Link>
         
         </ul>
       ))}

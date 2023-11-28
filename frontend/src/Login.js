@@ -43,11 +43,19 @@ function Login(){
       })
 
       .then(response=>response.json())
-      .then(alert("new users added"))
+      .then(data => {
+        if (data.status === 'user_exists') {
+          alert('User already exists, please log in.');
+          
+        } else if (data.status === 'success') {
+          alert('New user registered successfully');
+          navigate("/channels");
+
+        }
+      })
       .catch(err => console.error(err))
-      setUsername("");
-      setPassword("");
-      navigate("/channels")
+
+      
      
       }
         const handleLogIn = () => {
@@ -56,13 +64,25 @@ function Login(){
               body: new URLSearchParams({ username: username, password: password }),
               headers: { "Content-type": "application/x-www-form-urlencoded" }
           }).then(response => response.json())
-          .then(alert("log in successfully"))
-          .catch(err => console.error(err));
+          .then(data=>{
+            if (data.status === "user_not_found")
+            {alert(
+            "user does not exist, please register first"
+            )}
+            else if (data.status === 'incorrect_password') {
+              alert('Incorrect password. Please try again.');
+            } else if (data.status === 'success') {
+              alert('Log in successfully'); 
+              setUsername("");
+              setPassword("");
+              navigate("/channels");
+            }
+
+          }).catch(err => console.error(err));
                             
-               setUsername("");
-                setPassword("");
+              
                  
-                navigate("/channels")
+            
                          
              
       }
