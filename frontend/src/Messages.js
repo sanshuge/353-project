@@ -1,11 +1,15 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
-
+import "./Style.css"
 function Messages(){
     const [posts, setPosts] = useState([]);
-  const [topic, setTopic] = useState('');
   const [data, setData] = useState('');
+
   useEffect(() => {
+    refresh();
+}, []);
+
+const refresh  = () =>  {
     fetch('http://localhost:3000/getposts')
       .then(response => {
         if (!response.ok) {
@@ -13,6 +17,8 @@ function Messages(){
         }
         return response.json();
       })
+
+
       .then(data => {
         setPosts(data.posts)
       })
@@ -20,58 +26,58 @@ function Messages(){
         console.error('There was a problem with the fetch operation:', error);
         
       });
-  }, []); 
+  }; 
 
   const handleNewPost = () => {
     fetch('http://localhost:3000/addpost', {
       method: 'POST', 
-      body: new URLSearchParams ({topic : topic,data:data}),
+      body: new URLSearchParams ({data:data}),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  })
     .then(alert(`new post added`))
-    .catch(error => console.error(error))
+    .then(refresh())
+    .catch(error => console.error(error)) 
+    setPosts([...posts,{data}])  
     setData("");
-    setTopic("");  
-    setPosts([...posts,{topic,data}])  
-    console.log(posts)
+   
+    // console.log(posts)
 
     
     }
 
-    return ( 
+    return ( <div className="container">
+      <div className='form'>
       
-      <div className='container'>
-
-        <div className='form'>
-      <h3> share your thoughts here </h3>
-
-      <input className="input" type="text" placeholder="content" value={data} 
-      onChange={e => setData(e.target.value)} />
-      
-      <button  onClick={handleNewPost}>submit</button>
+   
+      <input type="text" placeholder="content" value={data} 
+      onChange={e => setData(e.target.value)} />   
+      <button className= "button"onClick={handleNewPost}>submit</button>
       </div>
-    
-    <div className='messages'>
+   
+         <div className=''>
      <ul>
       {posts.map(post => (
         <ul key={post.ID}>
-          {post.ID}  {post.data}
+          {post.ID}  data:{post.post}
         </ul>
+
       ))}
     </ul> 
     </div>
 
-
-
-</div>
     
   
 
- );
+  </div>);
 
 }
 export default Messages;
