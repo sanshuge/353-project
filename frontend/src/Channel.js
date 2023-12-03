@@ -13,7 +13,9 @@ function Channel(){
   const [posts, setPosts] = useState([]);
   const [data, setData] = useState('');
   // const [replies,setReplies] = useState([]);
-
+  const [image, setImage] = useState();
+  
+  
   useEffect(() => {
     refresh();
 }, []);
@@ -57,36 +59,33 @@ const refresh  = () =>  {
     .catch(error => console.error(error)) 
     setPosts([...posts,{data}])  
     setData("");
-   
-    // console.log(posts)
-
     
-    }
+  }
 
+  const handleChange =(e)=>{
+    setImage(URL.createObjectURL(e.target.files[0]));
+
+  }
+   
     return ( <div className="container">
       <div className='form'>
       <p>you can post here</p>
       <br></br>
    
       <input className = "input"type="text" placeholder="content" value={data} 
-      onChange={e => setData(e.target.value)} />   
+      onChange={e => setData(e.target.value)} />  
+             <input type="file" onChange={handleChange} />
+            {/* <img src={file} /> */}
       <button className= "button"onClick={handleNewPost}>submit</button>
+
       </div>
    
          <div className='container'>
      <ul>
       {posts.map(post => (
         <li key={post.postID}>
-          {post.postID} {post.post}
-          <div className='form'>
-      <br></br>
-{/*      
-      <input className = "input"type="text" placeholder="content" value={data} 
-      onChange={e => setData(e.target.value)} />   
-      <button className= "button">submit</button> */}
-
-
-      </div>
+           {post.post}
+           <Message/>
         </li>
         
       

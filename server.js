@@ -58,8 +58,9 @@ app.get("/init", (req, res) => {
 app.post("/addpost", (req, res) => {
  
   var data = req.body.data;
+  var image = req.body.image;
 
-  var query = `INSERT INTO postdb.posts (post) VALUES ( "${data}")`;
+  var query = `INSERT INTO postdb.posts (post,image) VALUES ( "${data}","${image}")`;
   connection.query(query, function (error, result) {
     if (error) console.log(error);
     res.send(result);

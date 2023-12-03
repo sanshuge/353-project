@@ -11,7 +11,7 @@ services:
       DB_PASSWORD: password
       DB_NAME: postdb
     ports:
-      - "80:3000"
+      - "3000:3000"
     volumes:
       - C:\Users\chaiy\Desktop\353-project:/dockerapp
     depends_on:
@@ -19,16 +19,17 @@ services:
     stdin_open: true
     tty: true
   react_app:
-    build: .
-    container_name: react_container
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     environment:
-      - WATCHPACK_POLLING=true  # Enables React to update on code change
+      - PORT:8080
+      - WATCHPACK_POLLING=true 
     ports:
       - "8080:8080"
     depends_on:
       - node
       - mysql1
-    # command: npm start
     stdin_open: true
     tty: true
   mysql1:

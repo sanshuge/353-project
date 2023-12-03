@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-function Login(){
+function Login(props){
   const navigate = useNavigate();
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
@@ -53,6 +53,7 @@ function Login(){
 
         }
       })
+     
       .catch(err => console.error(err))
 
       

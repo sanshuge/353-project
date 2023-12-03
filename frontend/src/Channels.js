@@ -7,7 +7,7 @@ import"./Style.css"
  * 
  * this is channels component where user can see or create channel
  */
-export const Channels = () => {
+export const Channels = (props) => {
     const [channels,setChannels] = useState([]);
     const [newChannel,setNewChannel] = useState('');
     useEffect(() => {
@@ -60,7 +60,7 @@ export const Channels = () => {
 return (
     
 <div className="container">
-
+{/* <p>hello {props.user.username}</p> */}
 <div className='form'>
 <p>Join the channels or create your own channel!</p>
 
@@ -73,7 +73,7 @@ return (
         <ul key={channel.channelID}>  
      
         
-          <Link to={`/channels/${channel.channelID}/${channel.channel}`}> channel:{channel.channel}       </Link>
+          <Link to={`/channels/${channel.channelID}/${channel.channel}`}> {channel.channel}       </Link>
         
         </ul>
       ))}
