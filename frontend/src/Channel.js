@@ -14,7 +14,8 @@ function Channel(){
   const [data, setData] = useState('');
   // const [replies,setReplies] = useState([]);
   const [image, setImage] = useState();
-  
+  const [imagePreview, setImagePreview] = useState(null);
+
   
   useEffect(() => {
     refresh();
@@ -39,6 +40,9 @@ const refresh  = () =>  {
       });
   }; 
 
+
+
+
   const handleNewPost = () => {
     fetch('http://localhost:3000/addpost', {
       method: 'POST', 
@@ -59,13 +63,18 @@ const refresh  = () =>  {
     .catch(error => console.error(error)) 
     setPosts([...posts,{data}])  
     setData("");
+    // setImage(null)
+    setImagePreview(null)
     
   }
 
-  const handleChange =(e)=>{
-    setImage(URL.createObjectURL(e.target.files[0]));
-
-  }
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
    
     return ( <div className="container">
       <div className='form'>
@@ -74,9 +83,14 @@ const refresh  = () =>  {
    
       <input className = "input"type="text" placeholder="content" value={data} 
       onChange={e => setData(e.target.value)} />  
-             <input type="file" onChange={handleChange} />
-            {/* <img src={file} /> */}
+
+      <input type="file" onChange={handleImageChange} />
+      <button>upload</button>
+      {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '200px' }} />}
+
+
       <button className= "button"onClick={handleNewPost}>submit</button>
+
 
       </div>
    
@@ -84,7 +98,11 @@ const refresh  = () =>  {
      <ul>
       {posts.map(post => (
         <li key={post.postID}>
-           {post.post}
+           {post.post} 
+           <br></br>
+         {/* {post.image && <img src={post.image}  style={{ maxWidth: '200px' }} />} */}
+         {/* {post.image} */}
+
            <Message/>
         </li>
         
