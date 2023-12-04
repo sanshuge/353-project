@@ -62,6 +62,7 @@ return (
 <div className="container">
 {/* <p>hello {props.user.username}</p> */}
 <div className='form'>
+<p>hello</p>
 <p>Join the channels or create your own channel!</p>
 
 <input className = "input"type="text" placeholder="name your channel" value={newChannel} 
@@ -70,9 +71,7 @@ return (
 </div>
 <div className='channels'>
 {channels.map(channel => (
-        <ul key={channel.channelID}>  
-     
-        
+        <ul key={channel.channelID}>      
           <Link to={`/channels/${channel.channelID}/${channel.channel}`}> {channel.channel}       </Link>
         
         </ul>

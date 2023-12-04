@@ -49,10 +49,13 @@ function Login(props){
           
         } else if (data.status === 'success') {
           alert('New user registered successfully');
+
           navigate("/channels");
 
         }
-      })
+      }).then(user => {
+        props.onLoggedIn(user.username);
+    })
      
       .catch(err => console.error(err))
 
@@ -79,7 +82,11 @@ function Login(props){
               navigate("/channels");
             }
 
-          }).catch(err => console.error(err));
+          })
+          .then(user => {
+            props.onLoggedIn( user.username);
+        })
+          .catch(err => console.error(err));
                             
               
                  

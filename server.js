@@ -5,8 +5,6 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({ limit: '50mb' }));
-// app.use( bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use( bodyParser.json());
 
@@ -44,10 +42,7 @@ const upload = multer({
   storage:storage
 })
 
-//Creates a database called postdb and a table called posts.
-// The postdb has 3 columns: id, topic, and data.
-// The id column is the primary key and is auto-incremented.
-// The topic and data columns are both varchar(100) and cannot be null.
+
 app.get("/init", (req, res) => {
   connection.query(
     `CREATE DATABASE IF NOT EXISTS postdb`,
@@ -62,10 +57,8 @@ app.get("/init", (req, res) => {
   connection.query(
     `CREATE TABLE IF NOT EXISTS posts 
     ( postID int unsigned NOT NULL auto_increment, 
-   
     post varchar(100) NOT NULL,
     image varchar(255),
-
     PRIMARY KEY (id))`,
     function (error, result) {
       if (error) console.log(error);
@@ -91,17 +84,6 @@ app.post("/addpost",upload.single('image'), (req, res) => {
         return res.json({Status:"success"})
       })
 });
-
-// app.post("/upload",upload.single('image'),(req,res)=>{
-//   console.log(req.file);
-//   const image = req.file.filename;
-//   const sqlQuery = 'UPDATE postdb.posts SET image=?';
-//   connection.query(sqlQuery,[image],(err,result)=>{
-//     if(err) return res.json({Message:"error!"})
-//     return res.json({Status:"success"})
-//   })
-
-// })
 
 
 
