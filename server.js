@@ -1,9 +1,13 @@
 // load package
+const multer  = require('multer');
+const path = require('path');
 const express = require('express');
 const app = express();
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ limit: '50mb' }));
+// app.use( bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use( bodyParser.json());
 
 const cors = require('cors');
@@ -12,7 +16,7 @@ const mysql = require("mysql");
 
 const PORT = 3000;
 const HOST = "0.0.0.0";
-
+app.use("/images",express.static('images'));
 
 
 //Database Connection
@@ -26,6 +30,19 @@ connection.connect((err) => {
   if (err) throw err;
   console.log("Connected to MySQL Server!");
 });
+
+const storage = multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,'images')
+  },
+  filename:(req,file,cb)=>{
+    cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname))
+
+  }
+})
+const upload = multer({
+  storage:storage
+})
 
 //Creates a database called postdb and a table called posts.
 // The postdb has 3 columns: id, topic, and data.
@@ -47,6 +64,8 @@ app.get("/init", (req, res) => {
     ( postID int unsigned NOT NULL auto_increment, 
    
     post varchar(100) NOT NULL,
+    image varchar(255),
+
     PRIMARY KEY (id))`,
     function (error, result) {
       if (error) console.log(error);
@@ -55,26 +74,54 @@ app.get("/init", (req, res) => {
   res.send("Database and Table created!");
 });
   // POST message to a specific
-app.post("/addpost", (req, res) => {
- 
-  var data = req.body.data;
-  var image = req.body.image;
+app.post("/addpost",upload.single('image'), (req, res) => {
 
-  var query = `INSERT INTO postdb.posts (post,image) VALUES ( "${data}","${image}")`;
-  connection.query(query, function (error, result) {
-    if (error) console.log(error);
-    res.send(result);
-  });
+  console.log(req.body); // For debugging: log the body
+  console.log(req.file);
+  if (!req.file) {
+    return res.status(400).json({ Message: "No file uploaded!" });
+  }
+  const data = req.body.data;
+  const image = req.file.filename;
+
+
+  var sqlQuery = `INSERT INTO postdb.posts (post,image) VALUES ( "${data}","${image}")`;
+  connection.query(sqlQuery,(err,result)=>{
+        if(err) return res.json({Message:"error!"})
+        return res.json({Status:"success"})
+      })
 });
+
+// app.post("/upload",upload.single('image'),(req,res)=>{
+//   console.log(req.file);
+//   const image = req.file.filename;
+//   const sqlQuery = 'UPDATE postdb.posts SET image=?';
+//   connection.query(sqlQuery,[image],(err,result)=>{
+//     if(err) return res.json({Message:"error!"})
+//     return res.json({Status:"success"})
+//   })
+
+// })
+
+
+
 //Get all posts
 //A GET request that returns all the posts in the posts table
 app.get("/getposts", (req, res) => {
   const sqlQuery = "SELECT * FROM postdb.posts";
   connection.query(sqlQuery, function (error, result) {
     if (error) console.log(error);
-    res.json({ posts: result });
+    else{
+      console.log("data get")
+      res.status(201).json({status:201,data:result})
+    }
+
+
+
   }); 
 });
+
+
 
 app.post("/login", (req, res) => {
   var username = req.body.username;
