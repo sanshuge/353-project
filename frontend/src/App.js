@@ -4,20 +4,23 @@ import Login from './Login';
 import Landing from './Landing'
 import Channel from './Channel'
 import Channels from './Channels';
-function App() {
+function App(props) {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username,setUsername]= useState('')
+
   
   return (
     <div className="App">
 
 <Router>
-        {/* <Link to="/login">  <button> Login </button> </Link> */}
-        {/* <Link to="/addPosts">  <button> Add Posts </button>   </Link> */}
+      
          <Routes>
-          <Route exact path='/' element={<Landing/>} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/channel" element={<Channel/>}/>
-          <Route path="/channels" element={<Channels/>}/> 
-          <Route path="/channels/:channelid/:title" element={<Channel/>} />
+          <Route exact path='/' element={<Landing  username = {username} loggedIn= {loggedIn} setLoggedIn={setLoggedIn}/>} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} />} />
+          {/* <Route path="/channel" element={<Channel username={username} />}/> */}
+          <Route path="/channels" element={<Channels username={username}/>}/> 
+          <Route path="/channels/:channelid/:title" element={<Channel  username={username}/>} />
        
           </Routes>
         </Router>

@@ -1,8 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom'; // 
+import { useNavigate } from "react-router-dom";
+
 import Login from './Login';
 import"./Style.css"
-export const Landing = () => {
+export const Landing = (props) => {
+    const { loggedIn, username } = props
+    const navigate = useNavigate();
+
+
+const handleClick=()=>{
+    navigate("/login");
+
+}
+
 return (
     <div className='app'>
 <p>
@@ -13,7 +24,19 @@ return (
     </br>
      step two :go to channel you are interested in or create your own channel.
 </p>
-<Link className='Link' to="/login">go to login page </Link>
+<div className="button">
+            <input
+                className="button"
+                type="button"
+                onClick={handleClick}
+                value={loggedIn ? "Log out" : "Log in"} />
+            {(loggedIn ? <div>
+                Your username  is {username}
+            </div> : <div/>)}
+        </div>
+
+<Link className='Link' to="/login">register here </Link>
+
 </div>
 );
 }

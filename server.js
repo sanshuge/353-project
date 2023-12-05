@@ -86,7 +86,6 @@ app.post("/addpost",upload.single('image'), (req, res) => {
 });
 
 
-
 //Get all posts
 //A GET request that returns all the posts in the posts table
 app.get("/getposts", (req, res) => {
@@ -98,10 +97,9 @@ app.get("/getposts", (req, res) => {
       res.status(201).json({status:201,data:result})
     }
 
-
-
   }); 
 });
+
 
 
 
@@ -109,11 +107,6 @@ app.post("/login", (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   var searchUsername = `SELECT * FROM postdb.userinfo WHERE username = ?`;
-
-  // Ensure username and password are provided
-  // if (!username || !password) {
-  //   return res.status(400).json({ status: 'missing_credentials' });
-  // }
 
   connection.query(searchUsername, [username], function (error, results) {
     if (error) {

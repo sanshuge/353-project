@@ -6,7 +6,7 @@ import axios from 'axios'
  * this component is for showing all the messages in this channel and allow user to create channel
  */
 import "./Style.css"
-function Channel(){
+function Channel(props){
 
   const [posts, setPosts] = useState([]);
   const [data, setData] = useState('');
@@ -64,8 +64,10 @@ const refresh=async()=>{
   
    
     return ( <div className="container">
+
       <div className='form'>
-      <p>you can post here</p>
+
+      <p>{props.username} you can post here</p>
       <br></br>
    
       <input className = "input"type="text" placeholder="content" value={data} 
@@ -85,7 +87,7 @@ const refresh=async()=>{
      <ul>
       {posts.map(post => (
         <li key={post.postID}>
-           {post.post} 
+          {props.username}: {post.post} 
            <br></br>
 
          <img src={`http://localhost:3000/images/${post.image}` } style={{ maxWidth: '200px' }} ></img>

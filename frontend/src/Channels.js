@@ -60,10 +60,10 @@ export const Channels = (props) => {
 return (
     
 <div className="container">
-{/* <p>hello {props.user.username}</p> */}
+<p>hello {props.username},Join the channels or create your own channel!</p>
 <div className='form'>
-<p>hello</p>
-<p>Join the channels or create your own channel!</p>
+
+
 
 <input className = "input"type="text" placeholder="name your channel" value={newChannel} 
    onChange={(e) => setNewChannel(e.target.value)} />

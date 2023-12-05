@@ -7,32 +7,6 @@ function Login(props){
     const[username,setUsername] = useState("");
     const[password,setPassword] = useState("");
 
-
-    // const handleRegister=()=>{
-    //     fetch('http://localhost:3000/register', {
-    //       method: 'POST', 
-    //       headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //       },
-    //       body: new URLSearchParams ({username:username,password:password}),
-    //     })
-
-    //     .then(response => {
-    //       if (response.status === 400) {
-    //           alert("user aleady exists, please log in")
-    //       }
-         
-    //       if (response.status===200){
-    //         alert("new user register successfully")
-    //         setUsername("");
-    //         setPassword("");
-              
-    //         navigate("/messages")
-    //       }
-    //   })
-    //       .catch(err => console.error(err));
-       
-    //     }
     const handleRegister=()=>{
       fetch('http://localhost:3000/register', {
         method: 'POST', 
@@ -49,13 +23,14 @@ function Login(props){
           
         } else if (data.status === 'success') {
           alert('New user registered successfully');
-
+          console.log(username)
+          props.setLoggedIn(true)
+          props.setUsername(username)
           navigate("/channels");
 
         }
-      }).then(user => {
-        props.onLoggedIn(user.username);
-    })
+      })
+      
      
       .catch(err => console.error(err))
 
@@ -79,13 +54,15 @@ function Login(props){
               alert('Log in successfully'); 
               setUsername("");
               setPassword("");
+              props.setLoggedIn(true)
+                props.setUsername(username)
               navigate("/channels");
+              console.log(username)
+
             }
 
           })
-          .then(user => {
-            props.onLoggedIn( user.username);
-        })
+
           .catch(err => console.error(err));
                             
               
