@@ -185,5 +185,7 @@ app.post("/addNewChannel", (req, res) => {
 
 
 
-app.listen(PORT, HOST);
+// app.listen(PORT, HOST);
+app.listen(process.env.PORT || 5000)
+
 console.log(`Running on http://${HOST}:${PORT}`);
