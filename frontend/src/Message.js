@@ -28,7 +28,6 @@ function Message(){
 
       <button onClick={handleLikes}>{likes}likes</button>
       <button onClick={handleDislikes}>{dislikes}dislikes</button>
-      {reply}
         </div>
     );
 
